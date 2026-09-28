@@ -1,0 +1,15 @@
+# dsh-ai-suplex — bundle patch
+#
+# When installed through the official CLI:
+#   dsh plugin --profile <name> add dsh-ai-suplex
+# the command reconciles dsh.profile.bundles against installed packages and,
+# reading this declaration, appends dsh-ai-suplex to the bundle stack. The
+# profile boot then merges THIS patch — a single insert of the plugin row.
+#
+# Phase 1 skeleton: one row, no tools yet. Confirm activation with:
+#   dsh --profile <name> --dump-config
+- insert:
+    - id: ai-suplex
+      name: 'dsh-ai-suplex'
+      config:
+        vaultPath: ''
