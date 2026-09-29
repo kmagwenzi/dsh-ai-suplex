@@ -52,6 +52,16 @@ This scaffolds period.md, a seed Tools/3lm.js, Tasklists/, Memory/, and Sessions
 
 ai_suplex_promote refuses to fire without an explicit approved: true. Everyone is building memory that writes itself; this builds memory that has to earn its place — on a rhythm you control.
 
+## What it is NOT
+
+- Not a memory layer — the vault is the memory; this is the loop around it.
+- Not memory that writes itself — every promotion needs an explicit human gate.
+- Not the full framework — Ultra Edition is the paid cockpit; this is the open loop.
+
+## Demo
+
+> GIF coming soon — a terminal capture of the loop (init → context → tasklist → capture → session_end).
+
 ## Design rule
 
 The plugin is a port, not the product. The vault stays the system of record and stays harness-agnostic; dsh is a surface.
