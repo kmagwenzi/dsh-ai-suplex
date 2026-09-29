@@ -10,7 +10,7 @@ Live proof: https://wqr.co.zw
 
 ## Status
 
-Phase 2 — the loop tools ship. The bundle installs, the layer activates, and these four tools run against your vault:
+Phase 3 — the full loop ships. The bundle installs, the layer activates, and these eight tools run against your vault:
 
 | Pipeline stage | Tool | State |
 |---|---|---|
@@ -18,10 +18,10 @@ Phase 2 — the loop tools ship. The bundle installs, the layer activates, and t
 | Plan | ai_suplex_tasklist | shipped |
 | Capture | ai_suplex_capture | shipped |
 | Session End | ai_suplex_session_end | shipped |
-| Learn | ai_suplex_learn | next |
-| Promote (gated) | ai_suplex_promote | next |
-| Approvals | ai_suplex_approvals | next |
-| Status | ai_suplex_status | next |
+| Learn | ai_suplex_learn | shipped |
+| Promote (gated) | ai_suplex_promote | shipped — approval-gated |
+| Approvals | ai_suplex_approvals | shipped |
+| Status | ai_suplex_status | shipped |
 
 ## Install
 
@@ -32,10 +32,18 @@ Confirm the ai-suplex row appears.
 
 ## The loop
 
-    ai_suplex_context     # staleness guard + mission brief
-    ai_suplex_tasklist    # to-dos -> a tasklist that opens with Phase 0
-    ai_suplex_capture     # write an artifact to the period-correct path
-    ai_suplex_session_end # report + 3lm end
+    ai_suplex_context      # staleness guard + mission brief
+    ai_suplex_tasklist     # to-dos -> a tasklist that opens with Phase 0
+    ai_suplex_capture      # artifact to the period-correct path
+    ai_suplex_session_end  # report + 3lm end
+    ai_suplex_learn        # extract lessons
+    ai_suplex_promote      # scored promotion — needs approved: true
+    ai_suplex_approvals    # the Hustler-decides inbox
+    ai_suplex_status       # memory stats + boss HP
+
+## The gate
+
+ai_suplex_promote refuses to fire without an explicit approved: true. Everyone is building memory that writes itself; this builds memory that has to earn its place — on a rhythm you control.
 
 ## Design rule
 
