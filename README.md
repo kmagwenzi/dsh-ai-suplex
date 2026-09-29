@@ -6,6 +6,8 @@ A free, open-source [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-h
 
 > Everyone is building memory that writes itself. This builds memory that has to **earn its place** — on a rhythm you control.
 
+▶️ **Live proof:** [wqr.co.zw](https://wqr.co.zw) — the production agent that runs on this loop.
+
 ## Status
 
 **Phase 1 — skeleton.** The bundle installs and the layer activates. The loop tools land next.
