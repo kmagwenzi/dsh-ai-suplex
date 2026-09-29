@@ -1,8 +1,8 @@
-// dsh-ai-suplex — Phase 3 smoke test (T013). Runs against the REAL vault + a stub vault for the gate.
+// dsh-ai-suplex — Phase 4 smoke test (T015). Real vault + stub vault + clean-room init.
 import assert from "node:assert"
 import os from "node:os"
 import path from "node:path"
-import { mkdirSync, writeFileSync, rmSync } from "node:fs"
+import { mkdirSync, writeFileSync, rmSync, existsSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 import {
   resolveVaultPath,
@@ -67,9 +67,9 @@ const registered = []
 apply({ tools: { register(def) { registered.push(def) } } }, { vaultPath: vault })
 const byName = (n) => registered.find((d) => d.name === n)
 
-await check("apply registers all 8 loop tools", () => {
+await check("apply registers all 9 tools", () => {
   const names = registered.map((d) => d.name).sort()
-  assert.deepStrictEqual(names, ["ai_suplex_approvals", "ai_suplex_capture", "ai_suplex_context", "ai_suplex_learn", "ai_suplex_promote", "ai_suplex_session_end", "ai_suplex_status", "ai_suplex_tasklist"])
+  assert.deepStrictEqual(names, ["ai_suplex_approvals", "ai_suplex_capture", "ai_suplex_context", "ai_suplex_init", "ai_suplex_learn", "ai_suplex_promote", "ai_suplex_session_end", "ai_suplex_status", "ai_suplex_tasklist"])
 })
 
 await check("every tool has execute + output schema", () => {
@@ -90,6 +90,27 @@ await check("ai_suplex_status reads real tasklists + boss HP", async () => {
   assert.ok(res.tasks > 0, "expected tasks > 0, got " + res.tasks)
   assert.equal(typeof res.bossHp, "number", "bossHp")
 })
+
+// T015 clean-room: init into an empty dir, then context returns a brief
+const fresh = path.join(os.tmpdir(), "dsh-ai-suplex-fresh-" + Date.now())
+await check("ai_suplex_init scaffolds a minimal vault", async () => {
+  const res = await byName("ai_suplex_init").execute({ path: fresh })
+  assert.ok(existsSync(path.join(fresh, "period.md")), "period.md")
+  assert.ok(existsSync(path.join(fresh, "Tools", "3lm.js")), "3lm.js")
+  assert.ok(existsSync(path.join(fresh, "Memory", "lessons.md")), "lessons.md")
+  assert.ok(existsSync(path.join(fresh, "Tasklists", "Active")), "Tasklists/Active")
+  assert.ok(res.root === fresh, "root")
+})
+
+const reg3 = []
+apply({ tools: { register(def) { reg3.push(def) } } }, { vaultPath: fresh })
+await check("clean-room: context returns a brief after init", async () => {
+  const ctx3 = reg3.find((d) => d.name === "ai_suplex_context")
+  const res = await ctx3.execute({}, {})
+  assert.ok(res.text.includes("Context fresh"), "seed brief")
+  assert.ok(res.text.includes("Vault Context"), "brief header")
+})
+rmSync(fresh, { recursive: true, force: true })
 
 const stub = path.join(os.tmpdir(), "dsh-ai-suplex-stub-" + Date.now())
 mkdirSync(path.join(stub, "Tools"), { recursive: true })
@@ -126,5 +147,5 @@ await check("promote FIRES with explicit approval", async () => {
 rmSync(shimDir, { recursive: true, force: true })
 rmSync(stub, { recursive: true, force: true })
 
-console.log(failures === 0 ? String.fromCharCode(10) + "SMOKE: PASS (13 checks)" : String.fromCharCode(10) + "SMOKE: " + failures + " FAILED")
+console.log(failures === 0 ? String.fromCharCode(10) + "SMOKE: PASS (15 checks)" : String.fromCharCode(10) + "SMOKE: " + failures + " FAILED")
 process.exitCode = failures === 0 ? 0 : 1

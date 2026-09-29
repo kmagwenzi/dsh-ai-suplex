@@ -10,10 +10,11 @@ Live proof: https://wqr.co.zw
 
 ## Status
 
-Phase 3 — the full loop ships. The bundle installs, the layer activates, and these eight tools run against your vault:
+Phase 4 — bootstrap ships. The bundle installs, the layer activates, nine tools run against your vault, and init scaffolds a fresh one cold:
 
 | Pipeline stage | Tool | State |
 |---|---|---|
+| Bootstrap | ai_suplex_init | shipped |
 | Context Core | ai_suplex_context | shipped |
 | Plan | ai_suplex_tasklist | shipped |
 | Capture | ai_suplex_capture | shipped |
@@ -29,6 +30,12 @@ Phase 3 — the full loop ships. The bundle installs, the layer activates, and t
     dsh --profile web --dump-config
 
 Confirm the ai-suplex row appears.
+
+## Start fresh (no vault yet)
+
+    ai_suplex_init path=/where/you/want/the/vault
+
+This scaffolds period.md, a seed Tools/3lm.js, Tasklists/, Memory/, and Sessions/ — then the same tools operate it.
 
 ## The loop
 
